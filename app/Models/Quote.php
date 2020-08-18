@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Author extends Model
+class Quote extends Model
 {
     protected $guarded = [];
 
-    public function quotes()
+    public function author()
     {
-        return $this->hasMany(Quote::class);
+        return $this->belongsTo(Author::class);
     }
 }
