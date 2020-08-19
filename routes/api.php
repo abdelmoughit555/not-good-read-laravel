@@ -8,4 +8,5 @@ Route::delete('/quotes/{quote}/author/{author}', 'QuoteController@destroy');
 Route::apiResources([
     'authors' => 'AuthorController',
     'books' => 'BookController',
+    'categories' => 'CategoryController'
 ]);
