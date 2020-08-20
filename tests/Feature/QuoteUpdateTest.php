@@ -11,7 +11,7 @@ use App\Models\Quote;
 class QuoteUpdateTest extends TestCase
 {
 
-    public function test_it_can_udate_a_quote()
+    public function test_it_can_update_a_quote()
     {
         $quote = factory(Quote::class)->create([
             'author_id' => factory(Author::class)->create()

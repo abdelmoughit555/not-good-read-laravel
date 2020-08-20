@@ -3,6 +3,8 @@
 namespace App\Http\Resources\Book;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Author\AuthorResource;
+use App\Http\Resources\Category\CategoryResource;
 
 class BookResource extends JsonResource
 {
@@ -21,6 +23,8 @@ class BookResource extends JsonResource
             "slug" => $this->slug,
             "description" => $this->description,
             "isbn" => $this->isbn,
+            "authors" => AuthorResource::collection($this->whenLoaded("authors")),
+            "categories" => CategoryResource::collection($this->whenLoaded("categories")),
         ];
     }
 }
