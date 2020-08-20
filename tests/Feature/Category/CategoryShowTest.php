@@ -9,6 +9,7 @@ use App\Models\Category;
 
 class CategoryShowTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *

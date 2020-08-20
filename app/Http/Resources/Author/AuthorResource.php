@@ -16,7 +16,10 @@ class AuthorResource extends JsonResource
     {
         return [
             'first_name' => $this->first_name,
-            'last_name' => $this->last_name
+            'last_name' => $this->last_name,
+            'type' => $this->whenPivotLoaded('author_book', function () {
+                return $this->pivot->type;
+            }),
         ];
     }
 }

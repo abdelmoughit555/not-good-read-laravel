@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuotesTable extends Migration
+class CreateAuthorBookTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,16 @@ class CreateQuotesTable extends Migration
      */
     public function up()
     {
-        Schema::create('quotes', function (Blueprint $table) {
+        Schema::create('author_book', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('author_id')->index();
-            $table->longText('quote');
-            $table->timestamps();
+            $table->unsignedBigInteger('book_id')->index();
+            $table->string('type')->nullable();
 
             $table->foreign('author_id')->references('id')->on('authors');
+            $table->foreign('book_id')->references('id')->on('books');
+
+            $table->timestamps();
         });
     }
 
@@ -30,6 +33,6 @@ class CreateQuotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quotes');
+        Schema::dropIfExists('author_book');
     }
 }

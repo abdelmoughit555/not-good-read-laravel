@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use Illuminate\Http\Request;
 use App\Http\Resources\Book\BookResource;
+use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
@@ -15,7 +15,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        return BookResource::collection(
+            Book::with(['authors', 'categories'])
+                ->withScopes()
+                ->latest()
+                ->paginate()
+        );
     }
 
     /**
@@ -24,12 +29,19 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        $book = Book::create($request->all());
+        $book = Book::createBookWithSync($request);
 
-        return new BookResource($book);
+        return new BookResource(
+            $book->load(
+                'authors',
+                'categories'
+            )
+        );
     }
+
+
 
     /**
      * Display the specified resource.
@@ -39,7 +51,12 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return new BookResource(
+            $book->load(
+                'authors',
+                'categories'
+            )
+        );
     }
 
     /**
@@ -49,9 +66,16 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book)
     {
-        //
+        $book->updateBookWithSync($request);
+
+        return new BookResource(
+            $book->load(
+                'authors',
+                'categories'
+            )
+        );
     }
 
     /**
@@ -62,6 +86,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->authors()->detach();
+
+        $book->categories()->detach();
+
+        $book->delete();
     }
 }
