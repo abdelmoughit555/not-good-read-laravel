@@ -41,6 +41,12 @@ class Book extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+
     static function createBookWithSync($request)
     {
         return self::createBook($request->validated())
