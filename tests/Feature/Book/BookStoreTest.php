@@ -8,6 +8,8 @@ use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
 use App\Enums\AuthorType;
+use App\User;
+use Laravel\Sanctum\Sanctum;
 
 class BookStoreTest extends TestCase
 {

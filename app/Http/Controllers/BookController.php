@@ -8,6 +8,10 @@ use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +19,7 @@ class BookController extends Controller
      */
     public function index()
     {
+        dd(env('SESSION_DOMAIN'));
         return BookResource::collection(
             Book::with(['authors', 'categories'])
                 ->withScopes()
