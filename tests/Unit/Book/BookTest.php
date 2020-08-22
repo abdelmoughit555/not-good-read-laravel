@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
+use App\Models\Comment;
 
 class BookTest extends TestCase
 {
@@ -29,5 +30,17 @@ class BookTest extends TestCase
         );
 
         $this->assertInstanceOf(Category::class, $book->categories->first());
+    }
+
+    public function test_it_has_many_to_a_book()
+    {
+        $book = factory(Book::class)->create();
+
+        $book->comments()->save(
+            factory(Comment::class)->make()
+        );
+
+
+        $this->assertInstanceOf(Comment::class, $book->comments->first());
     }
 }
