@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Comment;
 use App\Models\User;
+use App\Models\Reply;
 use Laravel\Sanctum\Sanctum;
 
 class CommentDeleteTest extends TestCase
@@ -51,5 +52,31 @@ class CommentDeleteTest extends TestCase
             ->assertStatus(200);
 
         $this->assertDatabaseMissing('comments', ['text' => $comment->text]);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function test_it_delete_all_replies_when_delete_a_comment()
+    {
+        $comment = factory(Comment::class)->create();
+
+        $reply = $comment->replies()->save(
+            factory(Reply::class)->make()
+        );
+
+        Sanctum::actingAs(
+            $comment->user,
+            ['*']
+        );
+
+        $this->assertDatabaseHas('replies', $reply->toArray());
+
+        $this->json('DELETE', '/api/comments/' . $comment->id)
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('replies', $reply->toArray());
     }
 }

@@ -19,7 +19,6 @@ class Book extends Model
         "isbn"
     ];
 
-
     /**
      * Undocumented function
      *
@@ -31,7 +30,7 @@ class Book extends Model
             ->withPivot('type');
     }
 
-    public function scopeWithScopes(Builder $builder, $scopes = [])
+    public function scopeWithScopes(Builder $builder)
     {
         return (new Scoper(request()))->apply($builder, $this->scopes());
     }

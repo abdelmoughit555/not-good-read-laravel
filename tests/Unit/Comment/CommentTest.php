@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Book;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Reply;
 
 class CommentTest extends TestCase
 {
@@ -31,5 +32,16 @@ class CommentTest extends TestCase
         $comment = factory(Comment::class)->create();
 
         $this->assertInstanceOf(User::class, $comment->user);
+    }
+
+    public function test_it_has_many_replies()
+    {
+        $comment = factory(Comment::class)->create();
+
+        $comment->replies()->save(
+            factory(Reply::class)->create()
+        );
+
+        $this->assertInstanceOf(Reply::class, $comment->replies->first());
     }
 }

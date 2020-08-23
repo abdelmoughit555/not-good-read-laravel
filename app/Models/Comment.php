@@ -31,4 +31,14 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
 }
