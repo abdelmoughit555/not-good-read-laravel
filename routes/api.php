@@ -11,6 +11,11 @@ Route::post('/comments/books/{book}', 'CommentController@store');
 Route::patch('/comments/{comment}/books/{book}', 'CommentController@update');
 Route::delete('/comments/{comment}', 'CommentController@destroy');
 
+//ReplyController
+Route::post('/replies/comments/{comment}', 'ReplyController@store');
+Route::patch('/replies/{reply}/comments/{comment}', 'ReplyController@update');
+Route::delete('/replies/{reply}/comments/{comment}', 'ReplyController@destroy');
+
 Route::apiResources([
     'books' => 'BookController',
     'authors' => 'AuthorController',

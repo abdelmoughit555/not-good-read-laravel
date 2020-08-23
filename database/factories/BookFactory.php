@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 $factory->define(Book::class, function (Faker $faker) {
     return [
-        'title' => $title = $faker->title(),
+        'title' => $title = $faker->text(10),
         'original_title' => $title,
         'edition_language' => $faker->languageCode,
         'slug' => Str::slug($title, '-'),
