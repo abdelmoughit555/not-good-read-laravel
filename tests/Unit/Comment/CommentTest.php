@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\Reply;
+use Illuminate\Support\Collection;
 
 class CommentTest extends TestCase
 {
@@ -43,5 +44,13 @@ class CommentTest extends TestCase
         );
 
         $this->assertInstanceOf(Reply::class, $comment->replies->first());
+    }
+
+    public function test_it_morph_many_likes()
+    {
+        $comment = factory(Comment::class)->create();
+
+
+        $this->assertInstanceOf(Collection::class, $comment->likes);
     }
 }

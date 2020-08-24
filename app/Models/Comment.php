@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\CanLike;
 
 class Comment extends Model
 {
+    use CanLike;
+
     protected $fillable = [
         'user_id',
         'book_id',
