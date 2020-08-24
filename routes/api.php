@@ -16,6 +16,9 @@ Route::post('/replies/comments/{comment}', 'ReplyController@store');
 Route::patch('/replies/{reply}/comments/{comment}', 'ReplyController@update');
 Route::delete('/replies/{reply}/comments/{comment}', 'ReplyController@destroy');
 
+//LikeController
+Route::post('/likes/{id}', 'LikeController@store');
+
 Route::apiResources([
     'books' => 'BookController',
     'authors' => 'AuthorController',
