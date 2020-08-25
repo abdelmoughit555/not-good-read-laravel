@@ -16,6 +16,9 @@ Route::post('/replies/comments/{comment}', 'ReplyController@store');
 Route::patch('/replies/{reply}/comments/{comment}', 'ReplyController@update');
 Route::delete('/replies/{reply}/comments/{comment}', 'ReplyController@destroy');
 
+//bookrateController
+Route::post('/books/{book}/rate', 'BookRateController@store');
+
 //LikeController
 Route::post('/likes/{id}', 'LikeController@store');
 
