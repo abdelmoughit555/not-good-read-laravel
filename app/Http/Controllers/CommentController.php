@@ -5,21 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Book;
 use App\Http\Requests\CommentRequest;
+use App\Http\Resources\Comment\CommentResource;
 
 class CommentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum')->except('index');
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Book $book)
     {
-        //
+        return CommentResource::collection(
+            $book->comments()
+                ->withCount('replies', 'likes')
+                ->with('user.rating')
+                ->paginate()
+        );
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Http\Resources\Book\BookResourceIndex;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Requests\BookRequest;
 
@@ -15,7 +16,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        return BookResource::collection(
+        return BookResourceIndex::collection(
             Book::with(['authors', 'categories'])
                 ->withScopes()
                 ->latest()
@@ -33,11 +34,10 @@ class BookController extends Controller
     {
         $book = Book::createBookWithSync($request);
 
-        return new BookResource(
+        return new BookResourceIndex(
             $book->load(
                 'authors',
-                'categories',
-                'comments'
+                'categories'
             )
         );
     }
@@ -55,7 +55,10 @@ class BookController extends Controller
         return new BookResource(
             $book->load(
                 'authors',
-                'categories'
+                'categories',
+                'comments.user',
+                'comments.replies',
+                'comments.replies.user'
             )
         );
     }

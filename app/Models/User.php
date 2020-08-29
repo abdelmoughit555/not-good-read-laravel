@@ -47,4 +47,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Like::class);
     }
+
+    public function rating()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function rate()
+    {
+        if ($rating  = $this->rating->first()) {
+            return $rating->rating;
+        }
+
+        return;
+    }
 }

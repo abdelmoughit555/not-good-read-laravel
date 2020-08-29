@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources\Book;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Author\AuthorResource;
-use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\Comment\CommentResource;
 
-class BookResource extends JsonResource
+class BookResource extends BookResourceIndex
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +14,13 @@ class BookResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            "title" => $this->title,
-            "original_title" => $this->original_title,
-            "edition_language" => $this->edition_language,
-            "slug" => $this->slug,
-            "description" => $this->description,
-            "isbn" => $this->isbn,
-            "authors" => AuthorResource::collection($this->whenLoaded("authors")),
-            "categories" => CategoryResource::collection($this->whenLoaded("categories")),
-        ];
+        return array_merge(parent::toArray($request), [
+            "rating" => [
+                "avg" => $this->rating(),
+                "rating_total" => $this->ratings->count(),
+                "review_total" => $this->comments->count()
+            ],
+            "comments" => CommentResource::collection($this->whenLoaded("comments")),
+        ]);
     }
 }
