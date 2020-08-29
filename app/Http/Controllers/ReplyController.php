@@ -5,22 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Reply;
 use App\Models\Comment;
 use App\Http\Requests\ReplyRequest;
-use  App\Events\Reply\ReplyCreated;
+use App\Events\Reply\ReplyCreated;
+use App\Http\Resources\Reply\ReplyCommentResource;
 
 class ReplyController extends Controller
 {
+    /**
+     * Undocumented function
+     */
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum')->except('index');
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Comment $comment)
     {
-        //
+        return ReplyCommentResource::collection(
+            $comment->replies()->with('user')->get()
+        );
     }
 
     /**
